@@ -1,6 +1,8 @@
-y = [2] # this array will contain the prime numbers that are found
-x = 100 # will check for primes up to this number
-p = 1 # number of primes found
+import sys
+
+y = [2]  # this array will contain the prime numbers that are found
+x = 1000000  # will check for primes up to this number
+p = 1  # number of primes found
 
 print("Looking for primes from 0 to " + str(x) + ".")
 print("2 is a prime.")
@@ -17,3 +19,4 @@ for i in range(3, x):
         p = p + 1
 
 print("Found " + str(p) + " prime(s) from 0 to " + str(x) + ".")
+print(sys.getsizeof(y))
