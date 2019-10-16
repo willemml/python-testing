@@ -2,14 +2,16 @@ from math import *
 from turtle import *
 from kandinsky import *
 
+speed(10)
 hideturtle()
 setheading(0)
 points = []
+lines = []
 exitprg = 0
 
 def drawpoint(point):
-  x=point[1]
-  y=point[2]
+  x=-160+point[1]
+  y=-110+point[2]
   penup()
   goto(x-5,y)
   pendown()
@@ -20,19 +22,7 @@ def drawpoint(point):
   left(90)
   forward(9)
   right(90)
-  if x>0:
-    x=160+x
-  else:
-    x=160-x*-1
-  if y>0:
-    y=111-y
-  else:
-    y=111+y*-1
-  draw_string(point[0],x+6,y-18)
-
-def draw_screen():
-  for i in points:
-    drawpoint(i[1],i[2],i[0])
+  draw_string(point[0],point[1]+6,223-point[2]-18)
 
 def cmd():
   command = input("> ")
@@ -42,11 +32,11 @@ def cmd():
     print("np - create a new point")
     print("nl - new line between points")
     print("rp - remove a point")
-    print("ls - list existing points")
+    print("lp - list existing points")
+    print("ll - list existing lines")
     print("dp - draw all points")
     print("dl - draw all lines")
     print("da - draw everything")
-    print("exit or quit - quit this")
   if command == "np":
     print("Create a new point:")
     npointname = ""
@@ -57,25 +47,42 @@ def cmd():
       for i in points:
         if npointname == i[0]:
           isnotdupe = 0
-    npointx = input("XPOS: ")
-    npointy = input("YPOS: ")
+    npointx = int(input("XPOS: "))
+    npointy = int(input("YPOS: "))
     points.append([npointname,npointx,npointy])
   if command == "nl":
-    pointa = input("start point(0-" + str(len(points)-1) + "): ")
-    pointb = input("end point(0-" + str(len(points)-1) + "): ")
+    pointa = int(input("start point(0-" + str(len(points)-1) + "): "))
+    pointb = int(input("end point(0-" + str(len(points)-1) + "): "))
+  if command == "dp":
+    for i in points:
+      drawpoint(i)
+    keyhasbeenpressed = 0
+    while keyhasbeenpressed == 0:
+      if len(get_keys()) > 0:
+        keyhasbeenpressed = 1
+  if command == "ll":
+    print("command not yet created")
+  if command == "da":
+    print("command not yet created")
+  if command == "dl":
+    print("command not yet created")
   if command == "rp":
     print("Remove a point:")
-    point = input("point number (0-" + str(len(points)-1) + "): ")
+    point = int(input("point number (0-" + str(len(points)-1) + "): "))
+    print("Is this right?")
+    print(str(point) + ". point '" + str(points[point][0]) + "' x=" + str(points[point][1]) + " y=" + str(points[point][2]))
+    yesno = input("[y/n] > ")
+    if yesno == "y":
+      points.pop(point)
+    if yesno == "n":
+      cmd()
   if command == "lp":
     print("List of existing points:")
+    pnum = 0
     for i in points:
-      print("point '" + i[0] + "' x=" + str(i[1]) + " y=" + str(i[2]))
-  if command == ("exit" or "quit"):
-    exitprg=1
-
+      print(str(pnum) + ". point '" + i[0] + "' x=" + str(i[1]) + " y=" + str(i[2]))
 
 def main():
   print("Draw tool:")
-  while exitprg==0:
+  while exitprg == 0:
     cmd()
-  print("Goodbye.")
