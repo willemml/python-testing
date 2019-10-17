@@ -9,6 +9,17 @@ points = []
 lines = []
 exitprg = 0
 
+def drawline(line):
+  xa=-160+line[0]
+  ya=-110+line[1]
+  xb=-160+line[2]
+  yb=-110+line[3]
+  penup()
+  goto(xa,ya)
+  pendown()
+  goto(xb,yb)
+  penup()
+
 def drawpoint(point):
   x=-160+point[1]
   y=-110+point[2]
@@ -51,8 +62,19 @@ def cmd():
     npointy = int(input("YPOS: "))
     points.append([npointname,npointx,npointy])
   if command == "nl":
-    pointa = int(input("start point(0-" + str(len(points)-1) + "): "))
-    pointb = int(input("end point(0-" + str(len(points)-1) + "): "))
+    name = ""
+    isnotdupe = 0
+    while isnotdupe == 0:
+      isnotdupe = 1
+      name = input("NAME: ")
+      for i in lines:
+        if name == i[3]:
+          isnotdupe = 0
+    a = int(input("start point(0-" + str(len(points)-1) + "): "))
+    b = int(input("end point(0-" + str(len(points)-1) + "): "))
+    c = [points[b][1] - points[a][1], points[b][2] - points[a][2]]
+    ab = sqrt((points[b][1]-points[a][1])^2+(points[b][2]-points[a][2])^2)
+    lines.append([points[a][1], points[a][2], points[b][1], points[b][2], length, name])
   if command == "dp":
     for i in points:
       drawpoint(i)
